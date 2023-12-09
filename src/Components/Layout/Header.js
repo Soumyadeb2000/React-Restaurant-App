@@ -3,6 +3,7 @@ import classes from './Header.module.css';
 import banner from './meals.jpg';
 import CartButton from './HeaderCartButton';
 import Summary from "./Summary";
+import MealsList from "../Meals/MealsList";
 
 const Header = props => {
     
@@ -16,7 +17,7 @@ const Header = props => {
                 <img src={banner} alt='Error Loading' />
             </div>
             <Summary/>
-            
+            <MealsList/>
         </React.Fragment>
     );
 }
