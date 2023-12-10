@@ -2,6 +2,7 @@ import React from "react"
 import classes from "./MealsList.module.css"
 import MealItem from "./MealItem";
 import Card from "../UI/Card";
+import Form from "../UI/Form";
 
 const list = [
     {
@@ -29,11 +30,16 @@ const list = [
 const MealsList = props => {
 
     const meals = list.map((item) => {
-        return <MealItem name={item.name} desc={item.desc} price={item.price}/>
+        return (<React.Fragment>
+            <MealItem name={item.name} desc={item.desc} price={item.price} />
+            <Form />
+        </React.Fragment>
+
+        );
     });
 
     return (
-        <Card className={classes.meals}> 
+        <Card className={classes.meals}>
             <ul>
                 {meals}
             </ul>
