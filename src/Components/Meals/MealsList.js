@@ -34,19 +34,13 @@ const list = [
 const MealsList = props => {
 
     const meals = list.map((item) => {
-        return (<React.Fragment>
-            <MealItem key={item.id} name={item.name} desc={item.desc} price={item.price} />
-        </React.Fragment>
-
-        );
+        return ( <MealItem key={item.id} id={item.id} name={item.name} desc={item.desc} price={item.price} />);
     });
 
     return (
         <section className={classes.meals}>
             <Card>
-            <ul>
-                {meals}
-            </ul>
+            <ul>{meals}</ul>
             </Card>
         </section>
     );
