@@ -12,7 +12,7 @@ const CartProvider = props => {
                 id: id, price: price, amount: amount, name: name
             } ,...prev]
         })
-        setTotalAmount(totalAmount+amount*price);
+        setTotalAmount(totalAmount+amount);
     }
 
     const removeItemFromCart = () => {
