@@ -8,7 +8,7 @@ const Form = props => {
     const updateCart = (e) => {
         e.preventDefault();
         const amount = e.target.amount.value * 1;
-        cartContext.addItem(amount, props.id,  props.price, props.name)
+        cartContext.addItem(props.id, props.price, amount, props.name)
     }
 
     return (

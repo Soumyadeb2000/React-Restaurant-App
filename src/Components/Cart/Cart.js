@@ -1,38 +1,40 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import classes from "./Cart.module.css"
 import Modal from "../UI/Modal";
 import CartContext from "../../Store/cart-context";
 
 const Cart = props => {
-    let totalAmount = 0;
-    const cartDetails = [
-        {name:'Sushi', amount: 0},
-        {name:'Schintzel', amount: 0},
-        {name:'Burger', amount: 0},
-        {name:'Green Bowl', amount: 0},
-    ];
-
     const cartContext = useContext(CartContext);
-    cartContext.items.forEach(item => {
-        totalAmount += item.price*item.amount;
-        if(item.id === 1) {
-            cartDetails[0].amount += item.amount;
-        } else if(item.id === 2) {
-            cartDetails[1].amount += item.amount;
-        } else if(item.id === 3) {
-            cartDetails[2].amount += item.amount;
-        } else {
-            cartDetails[3].amount += item.amount;
-        }
-    });
 
-    const cartItems = cartDetails.map(item => {
-        if(item.amount>0) {
+    const deleteItemByOne = (event) => {
+        event.preventDefault();
+        cartContext.removeItem(event.target.id);
+    }
+ 
+    const addItemByOne = (event) => {
+        event.preventDefault();
+        const idx = cartContext.items.findIndex(item => item.id == event.target.id)
+        const amount = 1;
+        const price = cartContext.items[idx].price;
+        const name = cartContext.items[idx].name;
+        cartContext.addItem(Number(event.target.id),  price, amount, name);
+    }
+
+    const cartItems = cartContext.items.map(item => {
+        if (item.amount > 0) {
             return (
-                <h3><li>{item.name} * {item.amount}</li></h3>
+                <li className={classes.meal}>
+                    <div>
+                        <h3>{item.name}</h3>
+                        <div className={classes.price}>{item.price} x {item.amount}</div>
+                    </div>
+                    <div>
+                        <button id={item.id} onClick={deleteItemByOne}>-</button>
+                        <button id={item.id} onClick={addItemByOne}>+</button>
+                    </div>
+                </li>
             );
         }
-        return
     })
 
     const hideCart = () => {
@@ -41,11 +43,10 @@ const Cart = props => {
 
     return (
         <Modal>
-            {console.log(cartDetails)}
             <ul className={classes["cart-items"]}>{cartItems}</ul>
             <div className={classes.total}>
                 <span>Total Amount</span>
-                <span>{totalAmount}</span>
+                <span>{cartContext.totalAmount}</span>
             </div>
             <div className={classes.actions}>
                 <button className={classes["button--alt"]} onClick={hideCart}>Close</button>

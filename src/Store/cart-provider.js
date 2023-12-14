@@ -6,17 +6,34 @@ const CartProvider = props => {
     const [items, setItems] = useState([])
     const [totalAmount, setTotalAmount] = useState(0);
 
-    const addItemToCart = (amount, id, price, name) => {
+    const addItemToCart = (id, price, amount, name) => {
         setItems((prev) => {
-            return [{
-                id: id, price: price, amount: amount, name: name
-            } ,...prev]
+            let updatedItems;
+            const idx = prev.findIndex(item => item.id === id);
+            if(prev[idx]) {
+                updatedItems = prev;
+                updatedItems[idx].amount += amount;
+            } else {
+                updatedItems = [{ id: id, price: price, amount: amount, name: name }, ...prev]
+            } 
+            return updatedItems;
         })
-        setTotalAmount(totalAmount+amount);
+        setTotalAmount(totalAmount + amount*price);
     }
 
-    const removeItemFromCart = () => {
-        
+    const removeItemFromCart = (id) => {
+        setItems((prev) => {
+            let updatedItems;
+            const idx = prev.findIndex(item => item.id == id);
+            if(prev[idx]) {
+                updatedItems = prev;
+                updatedItems[idx].amount -= 1;
+            } else {
+                updatedItems = prev.filter(item => item.id !== id)
+            } 
+            setTotalAmount(totalAmount-prev[idx].price);
+            return updatedItems;
+        })
     }
 
     const cartContext = {
